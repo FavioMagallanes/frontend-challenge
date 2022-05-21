@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useLocation } from "././hook/useLocation";
+import { NextDaysWeather } from "./components/NextDaysWeather";
+import { WeatherCity } from "./components/WeatherCity";
 
 function App() {
+  const { loading, longitude, latitude, currentDataCity, weatherNextDays } =
+    useLocation();
+
+  if (
+    Object.values(currentDataCity).length === 0 ||
+    Object.values(weatherNextDays).length === 0
+  ) {
+    return null;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex flex-col justify-center items-center h-screen bg-violet-900">
+      {loading ? (
+        <h1 className="text-6xl font-extrabold text-white uppercase ">
+          Loading...
+        </h1>
+      ) : (
+        <>
+          <WeatherCity data={currentDataCity} />
+          <NextDaysWeather
+            latitude={latitude}
+            longitude={longitude}
+            data={weatherNextDays}
+          />
+        </>
+      )}
     </div>
   );
 }
