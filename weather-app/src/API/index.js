@@ -11,3 +11,9 @@ export const getNextDaysWeather = (latitude, longitude) => {
     `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY_OPEN_WEATHER}`
   );
 };
+
+export const getCity = (city) => {
+  return fetch(
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY_OPEN_WEATHER}`
+  );
+};

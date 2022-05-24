@@ -1,11 +1,23 @@
-import React from "react";
-import { useLocation } from "././hook/useLocation";
-import { NextDaysWeather } from "./components/NextDaysWeather";
+import { useState, useEffect } from "react";
+import { useLocation } from "./hook/useLocation";
 import { WeatherCity } from "./components/WeatherCity";
+import { NextDaysWeather } from "./components/NextDaysWeather";
+import { SelectCity } from "./components/SelectCity";
 
-function App() {
-  const { loading, longitude, latitude, currentDataCity, weatherNextDays } =
+import BeatLoader from "react-spinners/BeatLoader";
+
+const App = () => {
+  const [loading, setLoading] = useState(true);
+
+  const { latitude, longitude, currentDataCity, weatherNextDays } =
     useLocation();
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
 
   if (
     Object.values(currentDataCity).length === 0 ||
@@ -15,11 +27,14 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen bg-violet-900">
+    <div className="flex flex-col items-center justify-center h-screen bg-violet-900">
       {loading ? (
-        <h1 className="text-6xl font-extrabold text-white uppercase ">
-          Loading...
-        </h1>
+        <BeatLoader
+          sizeUnit={"px"}
+          size={25}
+          color={"#fff"}
+          loading={loading}
+        />
       ) : (
         <>
           <WeatherCity data={currentDataCity} />
@@ -32,6 +47,6 @@ function App() {
       )}
     </div>
   );
-}
+};
 
 export default App;

@@ -8,11 +8,10 @@ export const useLocation = () => {
   const [longitude, setLongitude] = useState("");
   const [currentDataCity, setCurrentDataCity] = useState({});
   const [weatherNextDays, setWeatherNextDays] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [city, setCity] = useState("");
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
-      setLoading(true);
       let latitude = position.coords.latitude;
       let longitude = position.coords.longitude;
       setLatitude(latitude);
@@ -21,7 +20,6 @@ export const useLocation = () => {
         .then((res) => res.json())
         .then((data) => {
           setCurrentDataCity(data);
-          setLoading(false);
         });
     });
   }, [latitude, longitude]);
@@ -31,12 +29,10 @@ export const useLocation = () => {
       .then((res) => res.json())
       .then((data) => {
         setWeatherNextDays(data);
-        setLoading(false);
       });
   }, [latitude, longitude]);
 
   return {
-    loading,
     longitude,
     latitude,
     currentDataCity,
